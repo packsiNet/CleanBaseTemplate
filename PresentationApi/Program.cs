@@ -1,4 +1,4 @@
-using AspNetCoreRateLimit;
+﻿using AspNetCoreRateLimit;
 using InfrastructureLayer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +27,16 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/Identity/swagger.json", "API Identity v1");
+        options.SwaggerEndpoint("/swagger/Administrator/swagger.json", "API Administrator v1");
+        options.SwaggerEndpoint("/swagger/Managers/swagger.json", "API Managers v1");
+        options.SwaggerEndpoint("/swagger/Users/swagger.json", "API Users v1");
+
+        // تنظیم صفحه پیش‌فرض
+        options.RoutePrefix = string.Empty; // باز شدن در root: http://localhost:5000/
+    });
 }
 
 app.UseHttpsRedirection();
